@@ -28,4 +28,17 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<outputDirectory>C:\Development\Minecraft\TestServer\plugins</outputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

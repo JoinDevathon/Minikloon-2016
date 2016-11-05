@@ -1,7 +1,11 @@
-name: Devathon Project
+name: MusicMachine
 description: A project for the Devathon contest
 version: 1.0.0
-author: Your Name Here
+author: Minikloon
 
-main: org.devathon.contest2016.DevathonPlugin
+main: org.devathon.contest2016.mm.MusicMachine
 
+commands:
+  supernote:
+    description: Gives you a super note gun
+    usage: /supernote
