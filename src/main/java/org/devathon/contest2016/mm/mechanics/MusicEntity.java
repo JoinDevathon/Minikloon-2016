@@ -3,12 +3,14 @@ package org.devathon.contest2016.mm.mechanics;
 import org.bukkit.event.Listener;
 import org.devathon.contest2016.mm.MachineWorld;
 
-public abstract class CustomEntity implements Listener {
+public abstract class MusicEntity implements Listener {
     protected final MachineWorld world;
 
-    public CustomEntity(MachineWorld world) {
+    public MusicEntity(MachineWorld world) {
         this.world = world;
     }
+
+    public abstract MusicEntityType getType();
 
     public abstract void tick(double dSeconds);
 

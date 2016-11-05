@@ -8,17 +8,22 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.util.Vector;
-import org.devathon.contest2016.mm.mechanics.CustomEntity;
-import org.devathon.contest2016.mm.utils.MathStuff;
+import org.devathon.contest2016.mm.mechanics.MusicEntity;
+import org.devathon.contest2016.mm.mechanics.MusicEntityType;
+import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
+import org.devathon.contest2016.mm.utils.serialization.BukkitDataOutputStream;
+import org.devathon.contest2016.mm.utils.serialization.Codec;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 public class MachineWorld {
     private final JavaPlugin plugin;
     private final World world;
 
-    private final Set<CustomEntity> customEntities = new HashSet<>();
+    private final Set<MusicEntity> customEntities = new HashSet<>();
     private BukkitTask tickLoop;
 
     public MachineWorld(JavaPlugin plugin, World world) {
@@ -26,13 +31,13 @@ public class MachineWorld {
         this.world = world;
     }
 
-    public void addEntity(CustomEntity entity) {
+    public void addEntity(MusicEntity entity) {
         if(customEntities.add(entity)) {
             plugin.getServer().getPluginManager().registerEvents(entity, plugin);
         }
     }
 
-    public void despawn(CustomEntity entity) {
+    public void despawn(MusicEntity entity) {
         if(customEntities.remove(entity)) {
             entity.remove();
             HandlerList.unregisterAll(entity);
@@ -60,22 +65,50 @@ public class MachineWorld {
             tickLoop.cancel();
         }
 
-        List<CustomEntity> entities = new ArrayList<>(customEntities);
+        List<MusicEntity> entities = new ArrayList<>(customEntities);
         customEntities.clear();
-        entities.forEach(CustomEntity::remove);
+        entities.forEach(MusicEntity::remove);
     }
 
-    public Collection<CustomEntity> getEntities() {
+    public World getBukkitWorld() {
+        return world;
+    }
+
+    public Collection<MusicEntity> getEntities() {
         return new ArrayList<>(customEntities);
     }
-
-    public Vector getBounceDirection(Location loc, Vector velocity) {
-        return MathStuff.getBounceDirection(world, loc, velocity);
-    }
-
+    
     public void playNote(Location loc, Sound sound, NotePitch note) {
         world.getPlayers().forEach(p -> {
             p.playSound(loc, sound, 1.0f, note.getPitch());
         });
+    }
+
+    public void writeToStream(OutputStream stream) throws IOException {
+        BukkitDataOutputStream mcStream = new BukkitDataOutputStream(stream);
+        Collection<MusicEntity> entities = getEntities();
+        mcStream.writeInt(entities.size());
+        entities.forEach(e -> {
+            try {
+                mcStream.writeInt(e.getType().getId());
+                e.getType().getCodec().writeToStream(e, mcStream);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public void setupFromStream(InputStream stream) throws IOException {
+        BukkitDataInputStream mcStream = new BukkitDataInputStream(stream);
+        int entitiesCount = mcStream.readInt();
+        for(int i = 0; i < 10; ++i) {
+            System.out.println(entitiesCount);
+        }
+        for(int i = 0; i < entitiesCount; ++i) {
+            int typeId = mcStream.readInt();
+            Codec codec = MusicEntityType.idsToCodec.get(typeId);
+            MusicEntity entity = codec.readFromStream(this, mcStream);
+            addEntity(entity);
+        }
     }
 }

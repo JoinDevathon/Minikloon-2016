@@ -1,9 +1,9 @@
-name: MusicMachine
+name: MusicMachinePlugin
 description: A project for the Devathon contest
 version: 1.0.0
 author: Minikloon
 
-main: org.devathon.contest2016.mm.MusicMachine
+main: org.devathon.contest2016.mm.MusicMachinePlugin
 
 commands:
   supernote:
@@ -12,3 +12,6 @@ commands:
   stringmaker:
     description: Gives you the lead maker to tie two blocks
     usage: /leashmaker
+  clearmusic:
+    description: Dangerous! Clears everything related to music
+    usage: /cleamusic

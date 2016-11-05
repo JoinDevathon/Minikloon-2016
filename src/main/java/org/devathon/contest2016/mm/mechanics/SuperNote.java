@@ -11,10 +11,14 @@ import org.devathon.contest2016.mm.MachineWorld;
 import org.devathon.contest2016.mm.NotePitch;
 import org.devathon.contest2016.mm.utils.Cooldown;
 import org.devathon.contest2016.mm.utils.MinecraftUtils;
+import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
+import org.devathon.contest2016.mm.utils.serialization.BukkitDataOutputStream;
+import org.devathon.contest2016.mm.utils.serialization.Codec;
 
-public class SuperNote extends CustomEntity {
+import java.io.IOException;
+
+public class SuperNote extends MusicEntity {
     private final ArmorStand stand;
-    private boolean spawned = true;
 
     private static final Vector headOffset = new Vector(0, 1.6, 0);
 
@@ -28,6 +32,11 @@ public class SuperNote extends CustomEntity {
     private SuperNote(MachineWorld world, ArmorStand stand) {
         super(world);
         this.stand = stand;
+    }
+
+    @Override
+    public MusicEntityType getType() {
+        return MusicEntityType.SUPER_NOTE;
     }
 
     public Location getLocation() {
@@ -87,10 +96,22 @@ public class SuperNote extends CustomEntity {
     }
 
     public void remove() {
-        if(!spawned) return;
-        spawned = false;
         stand.remove();
         world.despawn(this);
+    }
+
+    public static class SuperNoteCodec implements Codec<SuperNote> {
+        @Override
+        public void writeToStream(SuperNote object, BukkitDataOutputStream stream) throws IOException {
+            stream.writeLocationCoords(object.stand.getLocation());
+            stream.writeVector(object.velocity);
+        }
+        @Override
+        public SuperNote readFromStream(MachineWorld world, BukkitDataInputStream stream) throws IOException {
+            SuperNote superNote = spawn(world, stream.readLocationCoords(world.getBukkitWorld()));
+            superNote.velocity = stream.readVector();
+            return superNote;
+        }
     }
 
     private static final ItemStack standHead = new ItemStack(Material.NOTE_BLOCK);

@@ -59,7 +59,7 @@ public class StringMaker implements Listener {
     private void onFirstClick(Player player, Block clicked) {
         Location entityLoc = clicked.getLocation().add(0.5, 0, 0.5).add(firstOffset);
 
-        LivingEntity firstDummyEntity = createDummyEntity(entityLoc);
+        LivingEntity firstDummyEntity = MusicString.createDummyEntity(entityLoc);
         firstDummyEntity.setLeashHolder(player);
 
         LeashSelection selection = new LeashSelection(player.getUniqueId(), clicked, firstDummyEntity);
@@ -72,7 +72,7 @@ public class StringMaker implements Listener {
         Location entityLoc = clicked.getLocation().add(0.5, 0.5, 0.5).add(secondOffset);
 
         LivingEntity firstDummyEntity = selection.getDummyEntity();
-        LivingEntity secondDummyEntity = createDummyEntity(entityLoc);
+        LivingEntity secondDummyEntity = MusicString.createDummyEntity(entityLoc);
         firstDummyEntity.setLeashHolder(secondDummyEntity);
 
         selections.remove(player.getUniqueId());
@@ -81,15 +81,6 @@ public class StringMaker implements Listener {
         world.addEntity(musicString);
 
         player.sendMessage("§eYou tied two blocks together!");
-    }
-
-    private LivingEntity createDummyEntity(Location loc) {
-        Bat dummy = (Bat) loc.getWorld().spawnEntity(loc, EntityType.BAT);
-        dummy.setAI(false);
-        dummy.setGravity(false);
-        dummy.setSilent(true);
-        dummy.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
-        return dummy;
     }
 
     @EventHandler
