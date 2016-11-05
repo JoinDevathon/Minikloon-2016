@@ -15,6 +15,9 @@ commands:
   stringcutter:
     description: Gives you special shears to cut music strings
     usage: /stringcutter
+  spawnerwand:
+    description: Gives you a supernote spawner wand
+    usage: /spawnerwand
   clearmusic:
     description: Dangerous! Clears everything related to music
     usage: /cleamusic

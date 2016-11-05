@@ -13,10 +13,10 @@ import org.devathon.contest2016.mm.mechanics.entities.SuperNote;
 
 import java.util.Collections;
 
-public class SuperNoteGunListener implements Listener {
+public class SuperNoteGun implements Listener {
     private final MachineWorld mWorld;
 
-    public SuperNoteGunListener(MachineWorld world) {
+    public SuperNoteGun(MachineWorld world) {
         this.mWorld = world;
     }
 

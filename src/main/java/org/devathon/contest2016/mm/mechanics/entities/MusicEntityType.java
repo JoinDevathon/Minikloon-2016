@@ -9,6 +9,7 @@ import java.util.Map;
 public enum MusicEntityType {
     SUPER_NOTE(0, new SuperNote.SuperNoteCodec()),
     MUSIC_STRING(1, new MusicString.MusicStringCodec()),
+    SUPER_NOTE_SPAWNER(3, new NoteSpawner.SuperNoteSpawnerCodec())
     ;
 
     private int id;

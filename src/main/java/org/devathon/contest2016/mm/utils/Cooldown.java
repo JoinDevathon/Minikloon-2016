@@ -15,4 +15,8 @@ public class Cooldown {
     public void use() {
         lastTriggerMs = System.currentTimeMillis();
     }
+
+    public long getCooldownMs() {
+        return cooldownMs;
+    }
 }

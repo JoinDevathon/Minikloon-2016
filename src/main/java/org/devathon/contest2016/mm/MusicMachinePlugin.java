@@ -5,11 +5,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.devathon.contest2016.mm.commands.ClearMusicCommand;
 import org.devathon.contest2016.mm.commands.ItemGivingCommand;
-import org.devathon.contest2016.mm.commands.StringMakerCommand;
-import org.devathon.contest2016.mm.commands.SuperNoteCommand;
 import org.devathon.contest2016.mm.mechanics.items.StringCutter;
 import org.devathon.contest2016.mm.mechanics.items.StringMaker;
-import org.devathon.contest2016.mm.mechanics.items.SuperNoteGunListener;
+import org.devathon.contest2016.mm.mechanics.items.SuperNoteGun;
+import org.devathon.contest2016.mm.mechanics.items.SpawnerWand;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,15 +38,17 @@ public class MusicMachinePlugin extends JavaPlugin {
             }
         }
 
-        getCommand("supernote").setExecutor(new ItemGivingCommand("musicmachine.supernote", SuperNoteGunListener::getItem));
+        getCommand("supernote").setExecutor(new ItemGivingCommand("musicmachine.supernote", SuperNoteGun::getItem));
         getCommand("stringmaker").setExecutor(new ItemGivingCommand("musicmachine.stringmaker", StringMaker::getItem));
         getCommand("stringcutter").setExecutor(new ItemGivingCommand("musicmachine.stringcutter", StringCutter::getItem));
+        getCommand("spawnerwand").setExecutor(new ItemGivingCommand("musicmachine.spawnerwand", SpawnerWand::getItem));
 
         getCommand("clearmusic").setExecutor(new ClearMusicCommand(machineWorld));
 
-        pm.registerEvents(new SuperNoteGunListener(machineWorld), this);
+        pm.registerEvents(new SuperNoteGun(machineWorld), this);
         pm.registerEvents(new StringMaker(machineWorld), this);
         pm.registerEvents(new StringCutter(machineWorld), this);
+        pm.registerEvents(new SpawnerWand(machineWorld), this);
 
         machineWorld.startTicking(this);
     }
