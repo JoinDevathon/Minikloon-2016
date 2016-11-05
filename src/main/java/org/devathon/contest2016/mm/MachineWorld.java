@@ -101,9 +101,6 @@ public class MachineWorld {
     public void setupFromStream(InputStream stream) throws IOException {
         BukkitDataInputStream mcStream = new BukkitDataInputStream(stream);
         int entitiesCount = mcStream.readInt();
-        for(int i = 0; i < 10; ++i) {
-            System.out.println(entitiesCount);
-        }
         for(int i = 0; i < entitiesCount; ++i) {
             int typeId = mcStream.readInt();
             Codec codec = MusicEntityType.idsToCodec.get(typeId);
