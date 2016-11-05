@@ -22,6 +22,9 @@ public class SuperNoteGunListener implements Listener {
     @EventHandler
     public void onShoot(PlayerInteractEvent e) {
         Player player = e.getPlayer();
+        if(! player.getInventory().getItemInMainHand().isSimilar(item))
+            return;
+
         Location loc = e.getPlayer().getLocation();
 
         mWorld.spawnSuperNote(loc);

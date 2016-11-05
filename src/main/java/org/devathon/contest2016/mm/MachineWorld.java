@@ -2,9 +2,11 @@ package org.devathon.contest2016.mm;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.Vector;
 import org.devathon.contest2016.mm.mechanics.SuperNote;
 
 import java.util.ArrayList;
@@ -58,5 +60,15 @@ public class MachineWorld {
         List<SuperNote> entities = new ArrayList<>(customEntities);
         customEntities.clear();
         entities.forEach(SuperNote::remove);
+    }
+
+    public Vector getBounceDirection(Location loc, Vector velocity) {
+        return null;
+    }
+
+    public void playNote(Location loc, Sound sound, NotePitch note) {
+        world.getPlayers().forEach(p -> {
+            p.playSound(loc, sound, note.getPitch(), 1.0f);
+        });
     }
 }
