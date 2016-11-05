@@ -18,6 +18,9 @@ commands:
   spawnerwand:
     description: Gives you a supernote spawner wand
     usage: /spawnerwand
+  eartrumpet:
+    description: Gives you an ear trumpet so you can hear better
+    usage: /eartrumpet
   clearmusic:
     description: Dangerous! Clears everything related to music
     usage: /cleamusic

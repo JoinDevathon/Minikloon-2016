@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.devathon.contest2016.mm.mechanics.entities.MusicEntity;
 import org.devathon.contest2016.mm.mechanics.entities.MusicEntityType;
+import org.devathon.contest2016.mm.mechanics.items.EarTrumpet;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataOutputStream;
 import org.devathon.contest2016.mm.utils.serialization.Codec;
@@ -80,7 +81,11 @@ public class MachineWorld {
     
     public void playNote(Location loc, Sound sound, NotePitch note) {
         world.getPlayers().forEach(p -> {
-            p.playSound(loc, sound, 1.0f, note.getPitch());
+            if(p.getInventory().getItemInMainHand().isSimilar(EarTrumpet.getItem())) {
+                p.playSound(p.getLocation(), sound, 1.0f, note.getPitch());
+            } else {
+                p.playSound(loc, sound, 1.0f, note.getPitch());
+            }
         });
     }
 

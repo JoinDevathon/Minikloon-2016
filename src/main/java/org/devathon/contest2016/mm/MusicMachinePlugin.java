@@ -5,10 +5,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.devathon.contest2016.mm.commands.ClearMusicCommand;
 import org.devathon.contest2016.mm.commands.ItemGivingCommand;
-import org.devathon.contest2016.mm.mechanics.items.StringCutter;
-import org.devathon.contest2016.mm.mechanics.items.StringMaker;
-import org.devathon.contest2016.mm.mechanics.items.SuperNoteGun;
-import org.devathon.contest2016.mm.mechanics.items.SpawnerWand;
+import org.devathon.contest2016.mm.mechanics.items.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +39,7 @@ public class MusicMachinePlugin extends JavaPlugin {
         getCommand("stringmaker").setExecutor(new ItemGivingCommand("musicmachine.stringmaker", StringMaker::getItem));
         getCommand("stringcutter").setExecutor(new ItemGivingCommand("musicmachine.stringcutter", StringCutter::getItem));
         getCommand("spawnerwand").setExecutor(new ItemGivingCommand("musicmachine.spawnerwand", SpawnerWand::getItem));
+        getCommand("eartrumpet").setExecutor(new ItemGivingCommand("musicmachine.eartrumpet", EarTrumpet::getItem));
 
         getCommand("clearmusic").setExecutor(new ClearMusicCommand(machineWorld));
 

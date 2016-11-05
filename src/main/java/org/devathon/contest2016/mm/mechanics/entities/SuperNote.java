@@ -114,7 +114,7 @@ public class SuperNote extends MusicEntity {
         }
     }
 
-    private static final ItemStack standHead = new ItemStack(Material.NOTE_BLOCK);
+    private static final ItemStack standHead = new ItemStack(Material.IRON_BLOCK);
     public static SuperNote spawn(MachineWorld world, Location location) {
         ArmorStand stand = MinecraftUtils.spawnBoringArmorStand(location, standHead);
         return new SuperNote(world, stand);
