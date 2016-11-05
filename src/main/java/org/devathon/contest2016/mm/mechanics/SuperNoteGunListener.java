@@ -27,7 +27,10 @@ public class SuperNoteGunListener implements Listener {
 
         Location loc = e.getPlayer().getLocation();
 
-        mWorld.spawnSuperNote(loc);
+        SuperNote note = SuperNote.spawn(mWorld, loc);
+        mWorld.addEntity(note);
+
+        player.sendMessage("§eNote!");
 
         e.setCancelled(true);
     }

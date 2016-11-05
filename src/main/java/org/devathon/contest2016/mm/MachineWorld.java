@@ -4,36 +4,39 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
-import org.devathon.contest2016.mm.mechanics.SuperNote;
+import org.devathon.contest2016.mm.mechanics.CustomEntity;
+import org.devathon.contest2016.mm.utils.MathStuff;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class MachineWorld {
+    private final JavaPlugin plugin;
     private final World world;
 
-    private final Set<SuperNote> customEntities = new HashSet<>();
+    private final Set<CustomEntity> customEntities = new HashSet<>();
     private BukkitTask tickLoop;
 
-    public MachineWorld(World world) {
+    public MachineWorld(JavaPlugin plugin, World world) {
+        this.plugin = plugin;
         this.world = world;
     }
 
-    public SuperNote spawnSuperNote(Location location) {
-        location = location.clone();
-        location.setWorld(this.world);
-        SuperNote note = SuperNote.spawn(this, location);
-        this.customEntities.add(note);
-        return note;
+    public void addEntity(CustomEntity entity) {
+        if(customEntities.add(entity)) {
+            plugin.getServer().getPluginManager().registerEvents(entity, plugin);
+        }
     }
 
-    public void despawn(SuperNote entity) {
-        entity.remove();
+    public void despawn(CustomEntity entity) {
+        if(customEntities.remove(entity)) {
+            entity.remove();
+            HandlerList.unregisterAll(entity);
+        }
     }
 
     private long lastTickMs = System.currentTimeMillis();
@@ -57,18 +60,22 @@ public class MachineWorld {
             tickLoop.cancel();
         }
 
-        List<SuperNote> entities = new ArrayList<>(customEntities);
+        List<CustomEntity> entities = new ArrayList<>(customEntities);
         customEntities.clear();
-        entities.forEach(SuperNote::remove);
+        entities.forEach(CustomEntity::remove);
+    }
+
+    public Collection<CustomEntity> getEntities() {
+        return new ArrayList<>(customEntities);
     }
 
     public Vector getBounceDirection(Location loc, Vector velocity) {
-        return null;
+        return MathStuff.getBounceDirection(world, loc, velocity);
     }
 
     public void playNote(Location loc, Sound sound, NotePitch note) {
         world.getPlayers().forEach(p -> {
-            p.playSound(loc, sound, note.getPitch(), 1.0f);
+            p.playSound(loc, sound, 1.0f, note.getPitch());
         });
     }
 }
