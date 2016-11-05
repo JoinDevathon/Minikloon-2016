@@ -15,11 +15,18 @@ public class LineSegment {
     }
 
     public double distanceWithPoint(Vector point) {
-        double a = (second.clone().subtract(first)).getCrossProduct(first.clone().subtract(point)).lengthSquared();
-        double b = second.clone().subtract(first).lengthSquared();
-        if(b == 0)
-            return 0;
-        return Math.sqrt(a/b);
+        Vector v = second.clone().subtract(first);
+        Vector w = point.clone().subtract(first);
+        double c1 = v.clone().dot(w);
+        if(c1 <= 0)
+            return point.distance(first);
+        double c2 = v.clone().dot(v);
+        if(c2 <= c1)
+            return point.distance(second);
+
+        double b = c1 / c2;
+        Vector pb = first.clone().add(v.clone().multiply(b));
+        return point.distance(pb);
     }
 
     public Vector getFirst() {

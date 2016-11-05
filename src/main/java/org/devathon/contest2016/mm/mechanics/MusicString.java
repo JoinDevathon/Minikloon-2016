@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 import org.devathon.contest2016.mm.MachineWorld;
 import org.devathon.contest2016.mm.NotePitch;
 import org.devathon.contest2016.mm.utils.LineSegment;
@@ -46,6 +47,23 @@ public class MusicString extends MusicEntity {
 
     public LineSegment getLineSegment() {
         return segment;
+    }
+
+    public Vector getBounceVelocity(double pseudoForce) {
+        Vector first = segment.getFirst();
+        Vector second = segment.getSecond();
+        if(first.getY() > second.getY()) {
+            first = second;
+            second = segment.getFirst();
+        }
+
+        Vector direction = second.clone().subtract(first);
+        Vector directionXZ = direction.clone().setY(0).normalize();
+        double ratio = direction.getY() / direction.clone().setY(0).length();
+        directionXZ.multiply(pseudoForce * -ratio);
+        directionXZ.setY(pseudoForce);
+
+        return directionXZ;
     }
 
     public NotePitch getPitch() {
