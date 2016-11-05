@@ -2,7 +2,7 @@ package org.devathon.contest2016.mm.commands;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.devathon.contest2016.mm.mechanics.SuperNoteGunListener;
+import org.devathon.contest2016.mm.mechanics.items.SuperNoteGunListener;
 
 public class SuperNoteCommand extends AdminCommand {
     public SuperNoteCommand() {

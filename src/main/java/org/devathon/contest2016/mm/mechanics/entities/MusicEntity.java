@@ -1,4 +1,4 @@
-package org.devathon.contest2016.mm.mechanics;
+package org.devathon.contest2016.mm.mechanics.entities;
 
 import org.bukkit.event.Listener;
 import org.devathon.contest2016.mm.MachineWorld;

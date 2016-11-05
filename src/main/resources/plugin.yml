@@ -12,6 +12,9 @@ commands:
   stringmaker:
     description: Gives you the lead maker to tie two blocks
     usage: /leashmaker
+  stringcutter:
+    description: Gives you special shears to cut music strings
+    usage: /stringcutter
   clearmusic:
     description: Dangerous! Clears everything related to music
     usage: /cleamusic

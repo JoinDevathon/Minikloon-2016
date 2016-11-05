@@ -2,7 +2,7 @@ package org.devathon.contest2016.mm.commands;
 
 import org.bukkit.entity.Player;
 import org.devathon.contest2016.mm.MachineWorld;
-import org.devathon.contest2016.mm.mechanics.MusicEntity;
+import org.devathon.contest2016.mm.mechanics.entities.MusicEntity;
 
 public class ClearMusicCommand extends AdminCommand {
     private final MachineWorld world;

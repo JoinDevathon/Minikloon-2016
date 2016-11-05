@@ -1,4 +1,4 @@
-package org.devathon.contest2016.mm.mechanics;
+package org.devathon.contest2016.mm.mechanics.entities;
 
 import com.google.common.collect.ImmutableMap;
 import org.devathon.contest2016.mm.utils.serialization.Codec;

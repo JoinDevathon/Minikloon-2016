@@ -1,4 +1,4 @@
-package org.devathon.contest2016.mm.mechanics;
+package org.devathon.contest2016.mm.mechanics.items;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.devathon.contest2016.mm.MachineWorld;
+import org.devathon.contest2016.mm.mechanics.entities.SuperNote;
 
 import java.util.Collections;
 

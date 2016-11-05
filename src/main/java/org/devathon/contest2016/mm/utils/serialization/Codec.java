@@ -1,7 +1,7 @@
 package org.devathon.contest2016.mm.utils.serialization;
 
 import org.devathon.contest2016.mm.MachineWorld;
-import org.devathon.contest2016.mm.mechanics.MusicEntity;
+import org.devathon.contest2016.mm.mechanics.entities.MusicEntity;
 
 import java.io.IOException;
 

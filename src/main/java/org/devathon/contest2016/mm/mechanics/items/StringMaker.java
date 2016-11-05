@@ -1,4 +1,4 @@
-package org.devathon.contest2016.mm.mechanics;
+package org.devathon.contest2016.mm.mechanics.items;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,10 +13,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.devathon.contest2016.mm.MachineWorld;
+import org.devathon.contest2016.mm.mechanics.entities.MusicString;
 
 import java.util.*;
 

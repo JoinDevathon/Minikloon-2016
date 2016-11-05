@@ -2,7 +2,7 @@ package org.devathon.contest2016.mm.commands;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.devathon.contest2016.mm.mechanics.StringMaker;
+import org.devathon.contest2016.mm.mechanics.items.StringMaker;
 
 public class StringMakerCommand extends AdminCommand {
     public StringMakerCommand() {
