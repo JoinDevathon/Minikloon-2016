@@ -1,14 +1,19 @@
 package org.devathon.contest2016.mm.commands;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.devathon.contest2016.mm.mechanics.SuperNoteGunListener;
 
-public class SuperNoteCommand implements CommandExecutor {
+public class SuperNoteCommand extends AdminCommand {
+    public SuperNoteCommand() {
+        super("musicmachine.supernote");
+    }
+
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
-        sender.sendMessage("test");
-        return true;
+    protected void execute(Player sender, String[] args) {
+        ItemStack gun = SuperNoteGunListener.getItem();
+        sender.getInventory().addItem(gun);
+        sender.sendMessage("§eYou gave yourself a super note gun!");
     }
 }
 
