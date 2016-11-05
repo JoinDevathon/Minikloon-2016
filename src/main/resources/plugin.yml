@@ -1,0 +1,7 @@
+name: Devathon Project
+description: A project for the Devathon contest
+version: 1.0.0
+author: Your Name Here
+
+main: org.devathon.contest2016.DevathonPlugin
+
