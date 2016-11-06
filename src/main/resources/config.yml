@@ -1,1 +1,9 @@
 world: "world"
+
+sounds:
+  string: "block.note.harp"
+  blocks:
+    24: "block.note.snare"
+    80: "block.note.basedrum"
+    41: "block.note.hat"
+    49: "block.note.bass"

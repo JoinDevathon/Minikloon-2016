@@ -7,8 +7,8 @@ import org.devathon.contest2016.mm.mechanics.entities.MusicEntity;
 public class ClearMusicCommand extends AdminCommand {
     private final MachineWorld world;
 
-    public ClearMusicCommand(MachineWorld world) {
-        super("musicmachine.clearmusic");
+    public ClearMusicCommand(String requiredPermission, MachineWorld world) {
+        super(requiredPermission);
         this.world = world;
     }
 

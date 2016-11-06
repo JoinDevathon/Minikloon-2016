@@ -5,6 +5,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.devathon.contest2016.mm.commands.ClearMusicCommand;
 import org.devathon.contest2016.mm.commands.ItemGivingCommand;
+import org.devathon.contest2016.mm.commands.SampleCommand;
 import org.devathon.contest2016.mm.mechanics.items.*;
 
 import java.io.File;
@@ -22,9 +23,11 @@ public class MusicMachinePlugin extends JavaPlugin {
 
         PluginManager pm = getServer().getPluginManager();
 
+        BlockSoundSettings soundSettings = BlockSoundSettings.parse(getConfig().getConfigurationSection("sounds"));
+
         String worldName = getConfig().getString("world");
         World bukkitWorld = getServer().getWorld(worldName);
-        machineWorld = new MachineWorld(this, bukkitWorld);
+        machineWorld = new MachineWorld(this, bukkitWorld, soundSettings);
         File saveFile = getMusicSaveFile();
         if(saveFile.exists()) {
             try(FileInputStream stream = new FileInputStream(getMusicSaveFile())) {
@@ -41,7 +44,8 @@ public class MusicMachinePlugin extends JavaPlugin {
         getCommand("spawnerwand").setExecutor(new ItemGivingCommand("musicmachine.spawnerwand", SpawnerWand::getItem));
         getCommand("eartrumpet").setExecutor(new ItemGivingCommand("musicmachine.eartrumpet", EarTrumpet::getItem));
 
-        getCommand("clearmusic").setExecutor(new ClearMusicCommand(machineWorld));
+        getCommand("clearmusic").setExecutor(new ClearMusicCommand("musicmachine.clearmusic", machineWorld));
+        getCommand("sample").setExecutor(new SampleCommand("musicmachine.sample", soundSettings));
 
         pm.registerEvents(new SuperNoteGun(machineWorld), this);
         pm.registerEvents(new StringMaker(machineWorld), this);

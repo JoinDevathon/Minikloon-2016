@@ -36,6 +36,7 @@ public class NoteSpawner extends MusicEntity {
 
     public void setFrequencyMs(long frequencyMs) {
         cooldown = new Cooldown(frequencyMs);
+        cooldown.use();
     }
 
     @Override

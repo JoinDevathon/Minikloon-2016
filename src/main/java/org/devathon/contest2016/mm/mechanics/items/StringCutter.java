@@ -38,7 +38,7 @@ public class StringCutter implements Listener {
         List<MusicString> cut = world.getEntities().stream()
                 .filter(en -> en instanceof MusicString)
                 .map(en -> (MusicString) en)
-                .filter(string -> string.getLineSegment().distanceWithPoint(e.getPlayer().getEyeLocation().toVector()) < 3)
+                .filter(string -> string.getLineSegment().distanceWithPoint(e.getPlayer().getEyeLocation().toVector()) < 2)
                 .collect(Collectors.toList());
 
         if(cut.isEmpty()) {

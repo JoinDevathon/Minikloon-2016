@@ -1,5 +1,6 @@
 package org.devathon.contest2016.mm.mechanics.entities;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,10 +25,9 @@ public class SuperNote extends MusicEntity {
 
     private boolean collidingGround = false;
     private boolean wasOnGround = false;
-    private Cooldown collideCd = new Cooldown(1000);
+    private Cooldown collideCd = new Cooldown(250);
 
     private Vector velocity = new Vector(0, 0, 0);
-    private static final double maxVelocitySquared = 16 * 16;
 
     private SuperNote(MachineWorld world, ArmorStand stand) {
         super(world);
@@ -47,7 +47,7 @@ public class SuperNote extends MusicEntity {
         stand.teleport(location.subtract(headOffset));
     }
 
-    private static final Vector gravity = new Vector(0, -4.5, 0);
+    private static final Vector gravity = new Vector(0, -16, 0);
     public void tick(double dSeconds) {
         boolean onGround = checkIsOnGround();
         collidingGround = !wasOnGround && onGround && !collidingGround;
@@ -56,38 +56,41 @@ public class SuperNote extends MusicEntity {
         if(onGround) {
             velocity.setY(0);
         } else {
-            addVelocity(gravity.clone().multiply(dSeconds));
+            velocity.add(gravity.clone().multiply(dSeconds));
         }
 
         if(collideCd.isReady()) {
             world.getEntities().stream().filter(e -> e instanceof MusicString).forEach(e -> {
                 MusicString string = (MusicString) e;
-                if (string.getLineSegment().distanceWithPoint(getLocation().toVector()) < 0.4) {
-                    velocity = string.getBounceVelocity(6.5);
+                if (string.getLineSegment().distanceWithPoint(getLocation().toVector()) < 0.75) {
+                    velocity = string.getBounceVelocity(12.0);
                     NotePitch pitch = string.getPitch();
                     if(pitch == null) {
                         world.playNote(getLocation(), Sound.ENTITY_CAT_HURT, NotePitch.H_DO);
                     }
                     else {
-                        world.playNote(getLocation(), Sound.BLOCK_NOTE_HARP, pitch);
+                        String sound = world.getSoundSettings().getStringSound();
+                        world.playNote(getLocation(), sound, pitch);
                     }
                     collideCd.use();
                 }
             });
         }
 
+        if(collidingGround) {
+            Material collidedType = getLocation().getBlock().getType();
+            String soundName = world.getSoundSettings().getSound(collidedType);
+            if(soundName == null) {
+                remove();
+                world.getBukkitWorld().playEffect(getLocation(), Effect.EXTINGUISH, 0);
+            } else {
+                world.playNote(getLocation(), soundName, NotePitch.M_DO);
+                velocity.setY(12.0);
+            }
+        }
+
         Vector deltaMove = velocity.clone().multiply(dSeconds);
         setLocation(getLocation().add(deltaMove));
-
-        if(collidingGround) {
-            world.playNote(getLocation(), Sound.BLOCK_NOTE_PLING, NotePitch.M_DO);
-        }
-    }
-
-    private void addVelocity(Vector add) {
-        if(velocity.clone().add(add).lengthSquared() < maxVelocitySquared) {
-            velocity.add(add);
-        }
     }
 
     private boolean checkIsOnGround() {

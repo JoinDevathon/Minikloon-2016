@@ -21,6 +21,9 @@ commands:
   eartrumpet:
     description: Gives you an ear trumpet so you can hear better
     usage: /eartrumpet
+  sample:
+    description: Gives you one of each available notes
+    usage: /sample
   clearmusic:
     description: Dangerous! Clears everything related to music
     usage: /cleamusic

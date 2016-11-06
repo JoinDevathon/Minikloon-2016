@@ -45,7 +45,7 @@ public class SpawnerWand implements Listener {
         }
         else {
             Location clickedLoc = clicked.getLocation();
-            int defaultFrequency = 1000;
+            int defaultFrequency = 2000;
             NoteSpawner spawner = new NoteSpawner(world, clickedLoc, defaultFrequency);
             world.addEntity(spawner);
 
@@ -58,7 +58,7 @@ public class SpawnerWand implements Listener {
         long frequencyMs = spawner.getFrequencyMs();
         int increments = 50;
         int min = 50;
-        int max = 4000;
+        int max = 16000;
         if(player.isSneaking()) {
             frequencyMs -= increments;
             if(frequencyMs < min)

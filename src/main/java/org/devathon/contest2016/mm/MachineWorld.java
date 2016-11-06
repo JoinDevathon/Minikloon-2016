@@ -24,12 +24,15 @@ public class MachineWorld {
     private final JavaPlugin plugin;
     private final World world;
 
+    private final BlockSoundSettings soundSettings;
+
     private final Set<MusicEntity> customEntities = new HashSet<>();
     private BukkitTask tickLoop;
 
-    public MachineWorld(JavaPlugin plugin, World world) {
+    public MachineWorld(JavaPlugin plugin, World world, BlockSoundSettings soundSettings) {
         this.plugin = plugin;
         this.world = world;
+        this.soundSettings = soundSettings;
     }
 
     public void addEntity(MusicEntity entity) {
@@ -58,7 +61,7 @@ public class MachineWorld {
     }
 
     private void tick(double dSeconds) {
-        customEntities.forEach(e -> e.tick(dSeconds));
+        getEntities().forEach(e -> e.tick(dSeconds));
     }
 
     public void stopAndDestroy() {
@@ -75,11 +78,25 @@ public class MachineWorld {
         return world;
     }
 
+    public BlockSoundSettings getSoundSettings() {
+        return soundSettings;
+    }
+
     public Collection<MusicEntity> getEntities() {
         return new ArrayList<>(customEntities);
     }
     
     public void playNote(Location loc, Sound sound, NotePitch note) {
+        world.getPlayers().forEach(p -> {
+            if(p.getInventory().getItemInMainHand().isSimilar(EarTrumpet.getItem())) {
+                p.playSound(p.getLocation(), sound, 1.0f, note.getPitch());
+            } else {
+                p.playSound(loc, sound, 1.0f, note.getPitch());
+            }
+        });
+    }
+
+    public void playNote(Location loc, String sound, NotePitch note) {
         world.getPlayers().forEach(p -> {
             if(p.getInventory().getItemInMainHand().isSimilar(EarTrumpet.getItem())) {
                 p.playSound(p.getLocation(), sound, 1.0f, note.getPitch());
