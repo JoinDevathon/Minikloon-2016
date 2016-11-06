@@ -1,8 +1,10 @@
 package org.devathon.contest2016.mm.mechanics.entities;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.devathon.contest2016.mm.MachineWorld;
 import org.devathon.contest2016.mm.utils.Cooldown;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
@@ -45,8 +47,11 @@ public class NoteSpawner extends MusicEntity {
             return;
         cooldown.use();
 
+        Block block = blockLocation.getBlock();
+        ItemStack head = new ItemStack(block.getTypeId(), 1, block.getData());
+
         Location spawnLocation = blockLocation.clone().add(0.5, -2, 0.5);
-        SuperNote note = SuperNote.spawn(world, spawnLocation);
+        SuperNote note = SuperNote.spawn(world, spawnLocation, head);
         world.addEntity(note);
     }
 

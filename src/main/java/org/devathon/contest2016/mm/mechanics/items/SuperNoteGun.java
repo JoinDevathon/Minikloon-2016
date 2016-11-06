@@ -28,7 +28,7 @@ public class SuperNoteGun implements Listener {
 
         Location loc = e.getPlayer().getLocation();
 
-        SuperNote note = SuperNote.spawn(mWorld, loc);
+        SuperNote note = SuperNote.spawn(mWorld, loc, new ItemStack(Material.NOTE_BLOCK));
         mWorld.addEntity(note);
 
         player.sendMessage("§eNote!");

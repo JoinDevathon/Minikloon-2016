@@ -121,20 +121,21 @@ public class SuperNote extends MusicEntity {
     public static class SuperNoteCodec implements Codec<SuperNote> {
         @Override
         public void writeToStream(SuperNote object, BukkitDataOutputStream stream) throws IOException {
+            stream.writeInt(object.stand.getHelmet().getType().getId());
+            stream.writeShort(object.stand.getHelmet().getDurability());
             stream.writeLocationCoords(object.stand.getLocation());
             stream.writeVector(object.velocity);
         }
         @Override
         public SuperNote readFromStream(MachineWorld world, BukkitDataInputStream stream) throws IOException {
-            SuperNote superNote = spawn(world, stream.readLocationCoords(world.getBukkitWorld()));
+            ItemStack head = new ItemStack(stream.readInt(), 1, stream.readShort());
+            SuperNote superNote = spawn(world, stream.readLocationCoords(world.getBukkitWorld()), head);
             superNote.velocity = stream.readVector();
             return superNote;
         }
     }
 
-    //private static final ItemStack standHead = new ItemStack(Material.IRON_BLOCK);
-    private static final ItemStack standHead = new ItemStack(Material.WOOL, 0, (byte) 3);
-    public static SuperNote spawn(MachineWorld world, Location location) {
+    public static SuperNote spawn(MachineWorld world, Location location, ItemStack standHead) {
         ArmorStand stand = MinecraftUtils.spawnBoringArmorStand(location, standHead);
         return new SuperNote(world, stand);
     }
