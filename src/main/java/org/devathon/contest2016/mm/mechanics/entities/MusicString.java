@@ -53,7 +53,7 @@ public class MusicString extends MusicEntity {
         Vector first = segment.getFirst();
         Vector second = segment.getSecond();
         if(first.getY() == second.getY()) {
-            return velocity.clone().setY(pseudoForce);
+            return velocity.clone().setY(pseudoForce * (velocity.getY() > 0 ? -1 : 1));
         }
 
         if(first.getY() > second.getY()) {
@@ -65,7 +65,7 @@ public class MusicString extends MusicEntity {
         Vector directionXZ = direction.clone().setY(0).normalize();
         double ratio = direction.getY() / direction.clone().setY(0).length();
         directionXZ.multiply(pseudoForce * -ratio);
-        directionXZ.setY(pseudoForce);
+        directionXZ.setY(pseudoForce * (velocity.getY() > 0 ? -1 : 1));
 
         return directionXZ;
     }

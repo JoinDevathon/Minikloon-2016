@@ -104,7 +104,7 @@ public class SuperNote extends MusicEntity {
             } else {
                 float pitch = getPitch(collidedBlock);
                 world.playSound(getLocation(), soundName, pitch);
-                velocity.setY(12.0);
+                velocity.setY(12.0 * (velocity.getY() > 0 ? -1 : 1));
                 ++bounces;
             }
         }
