@@ -2,6 +2,7 @@ package org.devathon.contest2016.mm.mechanics.items;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -64,11 +65,17 @@ public class StringMaker implements Listener {
         LeashSelection selection = new LeashSelection(player.getUniqueId(), clicked, firstDummyEntity);
         selections.put(player.getUniqueId(), selection);
 
-        player.sendMessage("§eYou clicked on a block! Click on a second one to tie them together!");
+        player.playSound(player.getLocation(), Sound.BLOCK_SLIME_PLACE, 0.5f, 1.0f);
     }
 
     private void onSecondClick(Player player, LeashSelection selection, Block clicked) {
         Location entityLoc = clicked.getLocation().add(0.5, 0.5, 0.5).add(secondOffset);
+
+        if(selection.getSelectedBlock().equals(clicked)) {
+            player.sendMessage("§cYou can't tie a block with itself!");
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+            return;
+        }
 
         LivingEntity firstDummyEntity = selection.getDummyEntity();
         LivingEntity secondDummyEntity = MusicString.createDummyEntity(entityLoc);
@@ -80,6 +87,7 @@ public class StringMaker implements Listener {
         world.addEntity(musicString);
 
         player.sendMessage("§eYou tied two blocks together!");
+        player.playSound(player.getLocation(), Sound.BLOCK_SLIME_PLACE, 0.5f, 0.9f);
     }
 
     @EventHandler
@@ -128,10 +136,10 @@ public class StringMaker implements Listener {
         meta.setDisplayName("§e§lLeash Maker §7(Right-Click a block)");
         meta.setLore(Arrays.asList(
                 "§7Steps:",
-                "1. §7Right-Click a block",
-                "2. §7Right-Click another block",
-                "3. ???",
-                "4. The blocks are tied together!"
+                "§71. Right-Click a block",
+                "§72. Right-Click another block",
+                "§73. ???",
+                "§74. The blocks are tied together!"
         ));
         item.setItemMeta(meta);
     }

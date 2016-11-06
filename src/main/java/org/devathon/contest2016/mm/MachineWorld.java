@@ -55,7 +55,7 @@ public class MachineWorld {
         tickLoop = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             long elapsedMs = System.currentTimeMillis() - lastTickMs;
             double dSeconds = ((double) elapsedMs) / 1000.0;
-            tick(dSeconds);
+            tick(0.05);
             lastTickMs = System.currentTimeMillis();
         }, 0, 1L);
     }

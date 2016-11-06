@@ -63,7 +63,7 @@ public class SuperNote extends MusicEntity {
             world.getEntities().stream().filter(e -> e instanceof MusicString).forEach(e -> {
                 MusicString string = (MusicString) e;
                 if (string.getLineSegment().distanceWithPoint(getLocation().toVector()) < 0.75) {
-                    velocity = string.getBounceVelocity(12.0);
+                    velocity = string.getBounceVelocity(12.0, velocity);
                     NotePitch pitch = string.getPitch();
                     if(pitch == null) {
                         world.playNote(getLocation(), Sound.ENTITY_CAT_HURT, NotePitch.H_DO);

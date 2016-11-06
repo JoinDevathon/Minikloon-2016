@@ -49,9 +49,13 @@ public class MusicString extends MusicEntity {
         return segment;
     }
 
-    public Vector getBounceVelocity(double pseudoForce) {
+    public Vector getBounceVelocity(double pseudoForce, Vector velocity) {
         Vector first = segment.getFirst();
         Vector second = segment.getSecond();
+        if(first.getY() == second.getY()) {
+            return velocity.clone().setY(pseudoForce);
+        }
+
         if(first.getY() > second.getY()) {
             first = second;
             second = segment.getFirst();
