@@ -2,6 +2,7 @@
 This is a project for Devathon of November 2016. The theme was "Machines".
 
 The idea of this plugin is based on Animusic's videos : A music machine.
+Here's a video of the plugin in action : https://www.youtube.com/watch?v=bfEGqEnOUYs
 
 ## Commands
 
