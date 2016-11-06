@@ -10,7 +10,7 @@ commands:
     description: Gives you a super note gun
     usage: /supernote
   stringmaker:
-    description: Gives you the lead maker to tie two blocks
+    description: Gives you the string maker to tie two blocks
     usage: /leashmaker
   stringcutter:
     description: Gives you special shears to cut music strings
