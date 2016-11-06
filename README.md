@@ -59,3 +59,8 @@ The "blocks" map are blocks configured to play a specific sound when either they
 
 The "muted" list are blocks which will stop the melting sound of super notes. By default that is black wool.
 
+## Notes
+
+The state of the music entities (super notes, spawners, strings...) are saved on graceful server exit in a *musicmachine.bin* file located in the world's folder.
+
+This plugin was only tested on a local machine. It's possible that running it on a remote server will be impossible, cause massive lag or make kittens cry.
