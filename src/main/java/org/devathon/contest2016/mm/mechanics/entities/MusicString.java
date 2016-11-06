@@ -3,12 +3,10 @@ package org.devathon.contest2016.mm.mechanics.entities;
 import org.bukkit.Location;
 import org.bukkit.Note;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Bat;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -23,6 +21,8 @@ import java.io.IOException;
 public class MusicString extends MusicEntity {
     private final Entity first;
     private final Entity second;
+    private final Block firstBlock;
+    private final Block secondBlock;
     private boolean spawned = false;
 
     private final LineSegment segment;
@@ -31,6 +31,8 @@ public class MusicString extends MusicEntity {
         super(world);
         this.first = first;
         this.second = second;
+        this.firstBlock = firstBlock;
+        this.secondBlock = secondBlock;
         segment = new LineSegment(firstBlock.getLocation().add(0.5, 0.5, 0.5).toVector(), secondBlock.getLocation().add(0.5, 0.5, 0.5).toVector());
     }
 
@@ -66,6 +68,13 @@ public class MusicString extends MusicEntity {
         directionXZ.setY(pseudoForce);
 
         return directionXZ;
+    }
+
+    public void applyColor(ArmorStand stand) {
+        if(firstBlock.getType() == secondBlock.getType() && firstBlock.getData() == secondBlock.getData()) {
+            ItemStack head = new ItemStack(firstBlock.getType(), 1, firstBlock.getData());
+            stand.setHelmet(head);
+        }
     }
 
     public Note getPitch() {

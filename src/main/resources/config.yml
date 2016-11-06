@@ -1,7 +1,7 @@
 world: "world"
 
 sounds:
-  string: "block.note.harp"
+  defaultString: "block.note.harp"
   blocks:
     "24:0": "block.note.snare"
     "80:0": "block.note.basedrum"

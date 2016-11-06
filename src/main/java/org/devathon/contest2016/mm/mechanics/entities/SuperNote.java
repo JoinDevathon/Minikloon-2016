@@ -66,20 +66,26 @@ public class SuperNote extends MusicEntity {
             velocity.add(gravity.clone().multiply(dSeconds));
         }
 
+        BlockSoundSettings soundSettings = world.getSoundSettings();
+
         if(collideCd.isReady()) {
             world.getEntities().stream().filter(e -> e instanceof MusicString).forEach(e -> {
                 MusicString string = (MusicString) e;
                 if (string.getLineSegment().distanceWithPoint(getLocation().toVector()) < 0.75) {
                     velocity = string.getBounceVelocity(12.0, velocity);
                     ++bounces;
+
                     Note note = string.getPitch();
                     if(note == null) {
                         world.playSound(getLocation(), Sound.ENTITY_CAT_HURT, Note.natural(1, Note.Tone.C));
                     }
                     else {
-                        String sound = world.getSoundSettings().getStringSound();
+                        String sound = soundSettings.getSound(stand.getHelmet().getData());
+                        if(sound == null)
+                            sound = world.getSoundSettings().getDefaultStringSound();
                         world.playSound(getLocation(), sound, note);
                     }
+
                     collideCd.use();
                 }
             });
@@ -88,7 +94,6 @@ public class SuperNote extends MusicEntity {
         if(collidingGround) {
             Block collidedBlock = getLocation().getBlock();
             MaterialData collidedType = new MaterialData(collidedBlock.getType(), collidedBlock.getData());
-            BlockSoundSettings soundSettings = world.getSoundSettings();
             String soundName = soundSettings.getSound(collidedType);
             if(soundName == null) {
                 remove();

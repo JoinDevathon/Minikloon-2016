@@ -9,18 +9,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BlockSoundSettings {
-    private final String stringSound;
+    private final String defaultStringSound;
     private final Map<MaterialData, String> idToSounds;
     private final Set<MaterialData> mutedTypes;
 
-    public BlockSoundSettings(String stringSound, Map<MaterialData, String> idToSounds, Set<MaterialData> mutedTypes) {
-        this.stringSound = stringSound;
+    public BlockSoundSettings(String defaultStringSound, Map<MaterialData, String> idToSounds, Set<MaterialData> mutedTypes) {
+        this.defaultStringSound = defaultStringSound;
         this.idToSounds = idToSounds;
         this.mutedTypes = mutedTypes;
     }
 
-    public String getStringSound() {
-        return stringSound;
+    public String getDefaultStringSound() {
+        return defaultStringSound;
     }
 
     public String getSound(Material material, byte data) {
@@ -44,7 +44,7 @@ public class BlockSoundSettings {
     }
 
     public static BlockSoundSettings parse(ConfigurationSection section) {
-        String stringSound = section.getString("string");
+        String stringSound = section.getString("defaultString");
         Map<MaterialData, String> idToSounds = new HashMap<>();
         for(String key : section.getConfigurationSection("blocks").getKeys(false)) {
             MaterialData matAnDat = parseMatData(key);

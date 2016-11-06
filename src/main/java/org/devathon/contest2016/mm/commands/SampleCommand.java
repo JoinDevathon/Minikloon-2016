@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 import org.devathon.contest2016.mm.BlockSoundSettings;
 
 import java.util.Arrays;
@@ -19,12 +20,13 @@ public class SampleCommand extends AdminCommand {
 
     @Override
     protected void execute(Player sender, String[] args) {
-        List<Material> availableType = settings.getAvailableTypes();
+        List<MaterialData> availableType = settings.getAvailableTypes();
 
-        for(Material mat : availableType) {
+        for(MaterialData mat : availableType) {
             String sound = settings.getSound(mat);
 
-            ItemStack item = new ItemStack(mat);
+            ItemStack item = mat.toItemStack();
+            item.setAmount(1);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName("§e§lSample block: §b\"" + sound + "\"");
             meta.setLore(Arrays.asList(
