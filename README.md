@@ -1,73 +1,61 @@
 # Devathon Project
-This is the base layout for your Devathon Project. It includes several scripts to make running incredibly easy on Windows, Mac, and Linux.
+This is a project for Devathon of November 2016. The theme was "Machines".
 
-## Help
+The idea of this plugin is based on Animusic's videos : A music machine.
 
-Help will be available for 25 hours during the contest at the following sources:
+## Commands
 
-Twitter: https://twitter.com/JoinDevathon
-Discord: https://discordapp.com/invite/qNxMS5B
+**/supernote** : Gives you a super note gun.
+Super notes are the core feature of the plugin. They're blocks flying around bouncing on stuff.
+When they hit certain blocks, they play a sound.
+Super notes from the gun will be note blocks.
 
-## Theme
+**/stringmaker** : Gives you the string to tie blocks together.
+This tool lets you leash blocks between eachothers. Super Notes will bounce off the leash and produce a sound with a pitch based on the leash length.
 
-The theme for the 2016 Devathon Contest is: **Machines!**
-Make a machine, make an interaction with a machine, or do something completely creative! As long as it has something to do with machines, you're good to go.
+**/stringcutter** : Gives you shears which can cut strings.
 
-## Reminders
+**/spawnerwand** : Gives you a super note spawner wand.
+The wand tool lets you pick blocks to become spawners. Spawners will automatically spawn super notes.
+You can use interact and shift-interact with the wand in hand on a spawner to change its spawn frequency.
+Super notes will spawn with the type of their spawner.
 
-Finish by November 6th at 8AM Central Time. You can find this time in your local timezone here: https://encrypted.google.com/search?hl=en&q=8%20am%20central%20time
+**/eartrumpet** : Gives you an ear trumpet.
+The ear trumpet lets you hear every sound produced by super notes from anywhere in the world.
 
-## Rules
+**/sample** : Gives you one of each configured blocks.
 
+**/clearmusic** : Removes all super notes and strings.
 
-1.  Teaming is not allowed.
-2.  No usage of public code & libraries.
-3.  Streaming is allowed.
-4.  Purposely copying another person’s idea is not allowed.
-5.  You are not allowed to use code written before the contest has started.
-6.  Code will be pushed regularly.
-7.  Binaries should not be pushed.
-8.  Accepting pull requests is not allowed.
-9.  Code must be able to compile, we will not fix compile errors.
-10. You must use Java 8.
-11. Your plugin must fit the theme or it will be disqualified.
-12. Maven is required.
+## Permissions
 
+- musicmachine.supernote
+- musicmachine.stringmaker
+- musicmachine.stringcutter
+- musicmachine.spawnerwand
+- musicmachine.eartrumpet
+- musicmachine.clearmusic
+- musicmachine.sample
 
-## Get Started
+## Configuration
 
-**If you already know how to use Maven, then more than likely the following steps are irrelevant for you. Just do your usual thing.**
+```
+world: "world"
 
----
-
-Don't worry, we made a video! Check it out at https://www.youtube.com/watch?v=u5HXS0l-VwQ
-
----
-
-First things first, you need to have the Java JDK8 installed. You can find the appropriate version here: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-
-Then you need to have git installed. You can find the appropriate version for your OS here: https://git-scm.com/
-
-There are no other required dependencies, however Maven is optional if you want to set up your own development environment outside of what we do for you.
-
-## Running
-
-If you're on Windows, you'll want to run all of these commands inside Git Bash, which is a program installed when you installed Git. You can paste by right clicking inside of the window.
-
-If you don't have this Git repository cloned yet, click on clone or download. If you have an SSH key on your account, use the SSH link. Otherwise use the HTTPS link if you want to use your GitHub username and password.
-
-Then run
-
-```bash
-git clone <link>
+sounds:
+  defaultString: "block.note.harp"
+  blocks:
+    "24:0": "block.note.snare"
+    "80:0": "block.note.basedrum"
+    "41:0": "block.note.hat"
+    "49:0": "block.note.bass"
+  muted: ["35:15"]
 ```
 
-To run your server, do:
+The "defaultString" is the default sound played when a block hits a string.
+You can view available sounds in vanilla Minecraft at http://pokechu22.github.io/Burger/1.10.html#sounds
 
-```bash
-./run-server.sh
-```
+The "blocks" map are blocks configured to play a specific sound when either they are hit by a super note **or** a super note of that type hits a string. "24:0" represents "id:data", for example "24:0" is default sandstone. There can be as many blocks in that list as you want.
 
-On first run this will download and compile the Spigot version that you're using for the contest. Because you're using this exact version of Spigot for the entire contest, you can safely use CraftBukkit and Minecraft Server code.
+The "muted" list are blocks which will stop the melting sound of super notes. By default that is black wool.
 
-This wrapper around the Spigot server has a few extra features that are not included inside of regular Spigot. If you type `stop` to stop the Minecraft Server, it'll automatically recompile your code and restart the server. To fully stop the server, type `exit` to safely stop the server and exit the recompilation loop. If you're on Windows, you won't have a `exit` command and will instead be asked every loop if you want to recompile.
