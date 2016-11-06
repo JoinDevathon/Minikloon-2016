@@ -1,17 +1,15 @@
 package org.devathon.contest2016.mm.mechanics.entities;
 
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.NoteBlock;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 import org.devathon.contest2016.mm.BlockSoundSettings;
 import org.devathon.contest2016.mm.MachineWorld;
-import org.devathon.contest2016.mm.NotePitch;
 import org.devathon.contest2016.mm.utils.Cooldown;
 import org.devathon.contest2016.mm.utils.MinecraftUtils;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
@@ -66,13 +64,13 @@ public class SuperNote extends MusicEntity {
                 MusicString string = (MusicString) e;
                 if (string.getLineSegment().distanceWithPoint(getLocation().toVector()) < 0.75) {
                     velocity = string.getBounceVelocity(12.0, velocity);
-                    NotePitch pitch = string.getPitch();
-                    if(pitch == null) {
-                        world.playNote(getLocation(), Sound.ENTITY_CAT_HURT, NotePitch.H_DO);
+                    Note note = string.getPitch();
+                    if(note == null) {
+                        world.playSound(getLocation(), Sound.ENTITY_CAT_HURT, Note.natural(1, Note.Tone.C));
                     }
                     else {
                         String sound = world.getSoundSettings().getStringSound();
-                        world.playNote(getLocation(), sound, pitch);
+                        world.playSound(getLocation(), sound, note);
                     }
                     collideCd.use();
                 }
@@ -89,8 +87,10 @@ public class SuperNote extends MusicEntity {
                 if(! soundSettings.isMuted(collidedType)) {
                     world.getBukkitWorld().playEffect(getLocation(), Effect.EXTINGUISH, 0);
                 }
+                world.getBukkitWorld().spawnParticle(Particle.EXPLOSION_NORMAL, getLocation(), 5, 0.1, 0.1, 0.1);
             } else {
-                world.playNote(getLocation(), soundName, NotePitch.M_DO);
+                float pitch = getPitch(collidedBlock);
+                world.playSound(getLocation(), soundName, pitch);
                 velocity.setY(12.0);
             }
         }
@@ -102,6 +102,15 @@ public class SuperNote extends MusicEntity {
     private boolean checkIsOnGround() {
         Block under = getLocation().getBlock();
         return under.getType() != Material.AIR;
+    }
+
+    private float getPitch(Block collidedBlock) {
+        Block under = collidedBlock.getRelative(BlockFace.DOWN);
+        if(under != null && under.getType().equals(Material.NOTE_BLOCK)) {
+            NoteBlock meta = (NoteBlock) under.getState();
+            return MinecraftUtils.getPitch(meta.getNote());
+        }
+        return MinecraftUtils.getPitch(Note.natural(1, Note.Tone.C));
     }
 
     public void remove() {
@@ -123,7 +132,8 @@ public class SuperNote extends MusicEntity {
         }
     }
 
-    private static final ItemStack standHead = new ItemStack(Material.IRON_BLOCK);
+    //private static final ItemStack standHead = new ItemStack(Material.IRON_BLOCK);
+    private static final ItemStack standHead = new ItemStack(Material.WOOL, 0, (byte) 3);
     public static SuperNote spawn(MachineWorld world, Location location) {
         ArmorStand stand = MinecraftUtils.spawnBoringArmorStand(location, standHead);
         return new SuperNote(world, stand);

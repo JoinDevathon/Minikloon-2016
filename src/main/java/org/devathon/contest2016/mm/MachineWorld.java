@@ -1,9 +1,6 @@
 package org.devathon.contest2016.mm;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +8,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.devathon.contest2016.mm.mechanics.entities.MusicEntity;
 import org.devathon.contest2016.mm.mechanics.entities.MusicEntityType;
 import org.devathon.contest2016.mm.mechanics.items.EarTrumpet;
+import org.devathon.contest2016.mm.utils.MinecraftUtils;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataOutputStream;
 import org.devathon.contest2016.mm.utils.serialization.Codec;
@@ -85,23 +83,33 @@ public class MachineWorld {
     public Collection<MusicEntity> getEntities() {
         return new ArrayList<>(customEntities);
     }
-    
-    public void playNote(Location loc, Sound sound, NotePitch note) {
+
+    public void playSound(Location loc, Sound sound, Note note) {
+        float pitch = MinecraftUtils.getPitch(note);
+        playSound(loc, sound, pitch);
+    }
+
+    public void playSound(Location loc, Sound sound, float pitch) {
         world.getPlayers().forEach(p -> {
             if(p.getInventory().getItemInMainHand().isSimilar(EarTrumpet.getItem())) {
-                p.playSound(p.getLocation(), sound, 1.0f, note.getPitch());
+                p.playSound(p.getLocation(), sound, 1.0f, pitch);
             } else {
-                p.playSound(loc, sound, 1.0f, note.getPitch());
+                p.playSound(loc, sound, 1.0f, pitch);
             }
         });
     }
 
-    public void playNote(Location loc, String sound, NotePitch note) {
+    public void playSound(Location loc, String sound, Note note) {
+        float pitch = MinecraftUtils.getPitch(note);
+        playSound(loc, sound, pitch);
+    }
+
+    public void playSound(Location loc, String sound, float pitch) {
         world.getPlayers().forEach(p -> {
             if(p.getInventory().getItemInMainHand().isSimilar(EarTrumpet.getItem())) {
-                p.playSound(p.getLocation(), sound, 1.0f, note.getPitch());
+                p.playSound(p.getLocation(), sound, 1.0f, pitch);
             } else {
-                p.playSound(loc, sound, 1.0f, note.getPitch());
+                p.playSound(loc, sound, 1.0f, pitch);
             }
         });
     }

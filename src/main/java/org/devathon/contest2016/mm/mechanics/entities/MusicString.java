@@ -1,6 +1,7 @@
 package org.devathon.contest2016.mm.mechanics.entities;
 
 import org.bukkit.Location;
+import org.bukkit.Note;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Entity;
@@ -12,15 +13,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.devathon.contest2016.mm.MachineWorld;
-import org.devathon.contest2016.mm.NotePitch;
 import org.devathon.contest2016.mm.utils.LineSegment;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataInputStream;
 import org.devathon.contest2016.mm.utils.serialization.BukkitDataOutputStream;
 import org.devathon.contest2016.mm.utils.serialization.Codec;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MusicString extends MusicEntity {
     private final Entity first;
@@ -70,24 +68,11 @@ public class MusicString extends MusicEntity {
         return directionXZ;
     }
 
-    public NotePitch getPitch() {
+    public Note getPitch() {
         int length = (int) segment.getLength();
-        return lengthPitches.get(length);
-    }
-
-    private static final Map<Integer, NotePitch> lengthPitches = new HashMap<>();
-    static {
-        lengthPitches.put(1, NotePitch.L_SI);
-        lengthPitches.put(2, NotePitch.M_DO);
-        lengthPitches.put(3, NotePitch.M_RE);
-        lengthPitches.put(4, NotePitch.M_MI);
-        lengthPitches.put(5, NotePitch.M_FA);
-        lengthPitches.put(6, NotePitch.M_SOL);
-        lengthPitches.put(7, NotePitch.M_LA);
-        lengthPitches.put(8, NotePitch.M_SI);
-        lengthPitches.put(9, NotePitch.H_DO);
-        lengthPitches.put(10, NotePitch.H_RE);
-        lengthPitches.put(11, NotePitch.H_MI);
+        if(length > 0 && length < 25)
+            return new Note(length - 1);
+        return null;
     }
 
     @Override
