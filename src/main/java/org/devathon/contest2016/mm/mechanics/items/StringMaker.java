@@ -86,7 +86,6 @@ public class StringMaker implements Listener {
         MusicString musicString = new MusicString(world, firstDummyEntity, secondDummyEntity, selection.getSelectedBlock(), clicked);
         world.addEntity(musicString);
 
-        player.sendMessage("§eYou tied two blocks together!");
         player.playSound(player.getLocation(), Sound.BLOCK_SLIME_PLACE, 0.5f, 0.9f);
     }
 
@@ -133,7 +132,7 @@ public class StringMaker implements Listener {
     static {
         item = new ItemStack(Material.LEASH);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§e§lLeash Maker §7(Right-Click a block)");
+        meta.setDisplayName("§e§lString Maker §7(Right-Click a block)");
         meta.setLore(Arrays.asList(
                 "§7Steps:",
                 "§71. Right-Click a block",

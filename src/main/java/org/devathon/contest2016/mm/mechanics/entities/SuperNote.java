@@ -27,6 +27,8 @@ public class SuperNote extends MusicEntity {
     private boolean wasOnGround = false;
     private Cooldown collideCd = new Cooldown(250);
 
+    private int bounces = 0;
+
     private Vector velocity = new Vector(0, 0, 0);
 
     private SuperNote(MachineWorld world, ArmorStand stand) {
@@ -49,6 +51,11 @@ public class SuperNote extends MusicEntity {
 
     private static final Vector gravity = new Vector(0, -16, 0);
     public void tick(double dSeconds) {
+        if(bounces > 400) {
+            remove();
+            return;
+        }
+
         boolean onGround = checkIsOnGround();
         collidingGround = !wasOnGround && onGround && !collidingGround;
         wasOnGround = onGround;
@@ -64,6 +71,7 @@ public class SuperNote extends MusicEntity {
                 MusicString string = (MusicString) e;
                 if (string.getLineSegment().distanceWithPoint(getLocation().toVector()) < 0.75) {
                     velocity = string.getBounceVelocity(12.0, velocity);
+                    ++bounces;
                     Note note = string.getPitch();
                     if(note == null) {
                         world.playSound(getLocation(), Sound.ENTITY_CAT_HURT, Note.natural(1, Note.Tone.C));
@@ -92,6 +100,7 @@ public class SuperNote extends MusicEntity {
                 float pitch = getPitch(collidedBlock);
                 world.playSound(getLocation(), soundName, pitch);
                 velocity.setY(12.0);
+                ++bounces;
             }
         }
 
