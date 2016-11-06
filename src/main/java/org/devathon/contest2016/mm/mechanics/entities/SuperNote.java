@@ -7,7 +7,9 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
+import org.devathon.contest2016.mm.BlockSoundSettings;
 import org.devathon.contest2016.mm.MachineWorld;
 import org.devathon.contest2016.mm.NotePitch;
 import org.devathon.contest2016.mm.utils.Cooldown;
@@ -78,11 +80,15 @@ public class SuperNote extends MusicEntity {
         }
 
         if(collidingGround) {
-            Material collidedType = getLocation().getBlock().getType();
-            String soundName = world.getSoundSettings().getSound(collidedType);
+            Block collidedBlock = getLocation().getBlock();
+            MaterialData collidedType = new MaterialData(collidedBlock.getType(), collidedBlock.getData());
+            BlockSoundSettings soundSettings = world.getSoundSettings();
+            String soundName = soundSettings.getSound(collidedType);
             if(soundName == null) {
                 remove();
-                world.getBukkitWorld().playEffect(getLocation(), Effect.EXTINGUISH, 0);
+                if(! soundSettings.isMuted(collidedType)) {
+                    world.getBukkitWorld().playEffect(getLocation(), Effect.EXTINGUISH, 0);
+                }
             } else {
                 world.playNote(getLocation(), soundName, NotePitch.M_DO);
                 velocity.setY(12.0);
